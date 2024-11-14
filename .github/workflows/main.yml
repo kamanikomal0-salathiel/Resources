@@ -1,0 +1,26 @@
+name: Check Resources
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  check-resources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Show System Information
+        run: |
+          echo "Operating System: $(uname -a)"
+          echo "CPU Info:"
+          lscpu
+          echo "Memory Info:"
+          free -h
+          echo "Disk Space Info:"
+          df -h
+          echo "Environment Variables:"
+          printenv
