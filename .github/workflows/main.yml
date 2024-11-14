@@ -1,26 +1,55 @@
-name: Check Resources
+name: Full System Info
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  check-resources:
+  get-system-info:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Show System Information
+      - name: Display Basic System Information
         run: |
+          echo "#### Basic System Information ####"
           echo "Operating System: $(uname -a)"
-          echo "CPU Info:"
+          echo "Processor Architecture: $(uname -m)"
+          echo "System Uptime:"
+          uptime
+
+      - name: Display CPU Information
+        run: |
+          echo "#### CPU Information ####"
           lscpu
-          echo "Memory Info:"
+
+      - name: Display Memory Information
+        run: |
+          echo "#### Memory Information ####"
           free -h
-          echo "Disk Space Info:"
+
+      - name: Display Disk Space Information
+        run: |
+          echo "#### Disk Space Information ####"
           df -h
-          echo "Environment Variables:"
+
+      - name: Display Network Interfaces
+        run: |
+          echo "#### Network Interfaces ####"
+          ip addr show
+
+      - name: Check Installed Software Versions
+        run: |
+          echo "#### Installed Software Versions ####"
+          echo "Node.js Version: $(node --version)"
+          echo "Python Version: $(python3 --version)"
+          echo "Java Version:"
+          java -version
+          echo "Git Version: $(git --version)"
+          echo "Docker Version:"
+          docker --version || echo "Docker not installed"
+
+      - name: List Environment Variables
+        run: |
+          echo "#### Environment Variables ####"
           printenv
